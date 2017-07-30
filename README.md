@@ -5,4 +5,4 @@ In this sense I've decided to create a web crawler using the PhantomJS library a
 
 The basic command to run the crawler is based on the deafult used by PhantomJS with additional parameters. For example:
 
-phatomjs crawler.js '<host>' '<username>' '<password>' '<subject>' '<course>'
+phatomjs crawler.js '<host>' '-username-' '-password-' '-subject-' '-course-'
