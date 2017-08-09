@@ -1,6 +1,7 @@
 var require 	= patchRequire(require);
 var utils 		= require('utils');
 var fs 				= require('fs');
+var urls 			= {};
 
 module.exports = function(host, casper, xpath) {
 
@@ -56,7 +57,7 @@ module.exports = function(host, casper, xpath) {
 					var elements = node.html.toString().match(/"(\w*)"/);
 
 					if (elements) {
-						this.wait(2000, function() {
+						this.wait(500, function() {
 							var mainId = elements[1];
 							this.click(xpath('//*[@class="'+ node.attributes.class +'"]/div/a[@id="'+ mainId +'"]/../following-sibling::div[2]/a'));
 						});
@@ -66,11 +67,12 @@ module.exports = function(host, casper, xpath) {
 		});
 
 		casper.on('resource.received', function(resource) {
-			var tmpUrl = '';
 			var url = resource.url;
-			if (resource.id == 2 && url != tmpUrl) { // video id
+
+			// Check if resource is a video and avoid duplicates
+			if (resource.id == 2 && !urls.hasOwnProperty(url)) {
 				fs.write('urls.txt', url + "\r", 'a');
-				tmpUrl = url;
+				urls[url] = true;
 			}
 		});
 	}
